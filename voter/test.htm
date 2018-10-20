@@ -1,0 +1,174 @@
+
+ 
+
+<!DOCTYPE html>
+
+<html> 
+<head> 
+	<style> 
+		 td { font-family:arial; font-size:26px; }
+		 div { font-family:arial; font-size:26px; }
+		 body { font-family:arial; font-size:26px; }
+	</style>
+</head> 
+
+<body> 
+
+	 <a href="index.php"><img width="600px;" align=left src="votingLogo.png"   ></a>  
+<map name="logomap">
+  <area shape="circle" coords="426,46,10" href="index.php" alt="Logo">
+</map>	
+	 
+	
+<table cellpadding=0 cellspacing=0 align=center style='background-color:white; width:95%;'>
+<tr><td style="height:85px;padding-left:0px;" >  
+	<script> 
+	  function hideMenu(){
+	  	return; /////////////////// remove to hide /////////////////////////////////
+	  	
+	  	var o = document.getElementById('menu');
+	  	 o.style.visibility='hidden';
+	  }
+		
+  </script> 
+		 
+		<div 
+		style="float:left; color:#008080; font-weight:normal; padding-bottom:8px; padding-right:8px; padding-left:20px;  background-color:lightgrey; "> 
+			<br>Stephen Padgett <br> is logged in 
+			    <div id=precinct></div>
+			          
+								<script>
+									  var op = document.getElementById('precinct');
+									      op.innerHTML = "Precinct=p2 ";
+									function distanceCenter(lat1,lon1, lat2, lon2){
+										/*
+										var φ1 = lat1.toRadians(), φ2 = lat2.toRadians(), Δλ = (lon2-lon1).toRadians(), R = 6371e3; // gives d in metres
+										var d = Math.acos( Math.sin(φ1)*Math.sin(φ2) + Math.cos(φ1)*Math.cos(φ2) * Math.cos(Δλ) ) * R;
+										*/ 
+										alert ( 'lat1='+ lat1/57.3 );
+										//return ''; 
+										
+										var phi1 = lat1/57.3, phi2 = lat2/57.3, delta = (lon2-lon1)/57.3, 
+										R = 6371e3; // gives d in metres
+										var distanceToCenter = Math.acos( Math.sin(phi1)*Math.sin(phi2) + Math.cos(phi1)*Math.cos(phi2) * Math.cos(delta) ) * R;
+										
+										document.getElementById('dist').innerHTML =  ''+distanceToCenter; 
+										
+										//return d; 
+									}
+									
+									
+								</script>
+			          
+			           
+			 
+		</div> 
+	<tr>  
+		
+		
+   
+		<form method=post name=ff  > 
+		<table><tr>    
+		<input type=hidden name=passid id=passid>		<td id=menu style='padding-top:20px;  min-width: 225px; ' > <strong>Auditor Menu </strong> <div style='padding-left:12px; padding-top:18px; padding-bottom:8px; background-color:lightblue; ' > 
+						   		    <div style='padding-top:1px; ' > <a href='vote.php'> Intake page </a> </div>  
+						   		    <div style='padding-top:18px; ' > <a href='vote.php?v=1'> Voting page </a> </div> 
+						   		    <div style='padding-top:18px; ' > <a href='nonVoter.php'> Non-Voter page </a> </div> 
+						   		    <div style='padding-top:18px; '> <a href='logout-page.php'> Logout </a> </div> 
+			   		        </div> </td> 
+			   		        
+<script>	
+  var divLinks = (document.getElementById('menu')).getElementsByTagName('a'); 
+  
+  for(var k=0; k<divLinks.length; k++) { 
+  	if( divLinks[k].href == document.location.href ) {
+  		divLinks[k].style.backgroundColor='#eeeeee'; 
+  		divLinks[k].style.color='#666666';
+  	   } 
+  }
+</script>
+
+<!-- ////////////// block back?? --> 
+			   		        
+			   		         
+	  <input type=hidden name=checkin id=checkin   > 
+	  <input type=hidden name=checkout id=checkout   > 
+
+		<script> 
+			function checkIn(){
+	  		 document.ff.checkin.value='1'; 
+	  		 document.ff.submit(); 
+	  	}
+			function checkOut(){
+	  		 document.ff.checkout.value='1'; 
+	  		 document.ff.submit(); 
+	  	}
+
+		</script> 
+	
+	 	
+<td style='padding-top:20px; padding-left:20px;  ' > <table> 
+		  	 <tr><td > <strong>Are you registered to vote? </strong>  
+		  	            <input type=hidden name=areyoureg value=1>          
+		     <tr><td > 
+	          <input type=radio  style='height:45px; width:45px; vertical-align: middle;'  name=isregistered id=isregistered onclick='isreg(this);' value=Yes > Yes  &nbsp; &nbsp; 
+	          <input type=radio  style='height:45px; width:45px; vertical-align: middle;'   name=isregistered id=isregistered onclick='isreg(this);' value=No > No   &nbsp; &nbsp; 
+	          <input type=radio  style='height:45px; width:45px; vertical-align: middle;'   name=isregistered id=isregistered onclick='isreg(this);' value=Maybe > Not Sure  &nbsp; &nbsp; 
+	             
+		  </table> 
+		  <input type=hidden name=regval id=regval >  <!-- Yes No Maybe --> 
+		      		  
+		  
+	  </table>
+	  <input type=hidden name=flag1 id=flag1   > 
+	  
+		</form>
+	  <script>
+	     function isreg(o){ 
+	     		document.getElementById('regval').value = o.value; 
+	     		document.ff.submit(); 
+	     }
+	     
+	  	function done1(d){
+	  		//alert( 'd='+d ); 
+	  	  document.getElementById('flag1').value= ''+d;
+	  	    
+	  	  //CONSTRAINTS
+	  	  if( d== '0' ){ 
+	  	  	//
+	  	  	
+	  	 	} else if (d=='2')  {  
+	  	 		var o =document.getElementById('provision'); if(o.value == ''){o.focus(); alert( 'Select Ballot type'); return false;  }
+	  	 	
+	  	 	} else if (d=='3')  {  
+	  	 	
+	  	 	} else if (d=='4')  { 
+	  	 		   alert( 'ballot posted'); 
+	  	 		   
+	  	 	} else if (d=='99')  { 
+				 		 echo "Thank you for participating!  ";
+				 		 echo '<br><br> Now return this device to the auditor.';
+
+
+	   	 		   
+	  	 	}
+	  	 	
+	  	  document.ff.submit(); 
+	  	  
+	  }
+	  
+	  
+    hideMenu();
+	function imgRedirect(){
+
+	 		if( logoLink &&  logoLink=='1'){ location.href = 'index.php';}
+
+	}	  
+	  
+	  	</script>
+ 
+</table> </body> </html> 
+
+ 
+
+
+

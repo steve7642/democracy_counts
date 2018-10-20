@@ -1,0 +1,20 @@
+[17-Oct-2018 13:42:24 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:42:24 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:42:24 America/Chicago] PHP Warning:  include(): Failed opening 'menu.php' for inclusion (include_path='.:/opt/php56/lib/php') in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:42:37 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:42:37 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:42:37 America/Chicago] PHP Warning:  include(): Failed opening 'menu.php' for inclusion (include_path='.:/opt/php56/lib/php') in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:04 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:04 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:04 America/Chicago] PHP Warning:  include(): Failed opening 'menu.php' for inclusion (include_path='.:/opt/php56/lib/php') in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:29 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:29 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:29 America/Chicago] PHP Warning:  include(): Failed opening 'menu.php' for inclusion (include_path='.:/opt/php56/lib/php') in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:34 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:34 America/Chicago] PHP Warning:  include(menu.php): failed to open stream: No such file or directory in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:43:34 America/Chicago] PHP Warning:  include(): Failed opening 'menu.php' for inclusion (include_path='.:/opt/php56/lib/php') in /home3/steve/public_html/voter/reports.php on line 24
+[17-Oct-2018 13:44:21 America/Chicago] PHP Fatal error:  Call to undefined function writeFile() in /home3/steve/public_html/voter/reports.php on line 84
+[17-Oct-2018 13:46:30 America/Chicago] PHP Warning:  fopen(out_csv/tally.csv): failed to open stream: No such file or directory in /home3/steve/public_html/voter/header.php on line 136
+[17-Oct-2018 17:50:30 America/Chicago] PHP Parse error:  syntax error, unexpected '$sql' (T_VARIABLE) in /home3/steve/public_html/voter/tally.php on line 81
+[19-Oct-2018 08:27:55 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/steve/public_html/voter/runScheduler.php:48) in /home3/steve/public_html/voter/header.php on line 17
+[19-Oct-2018 08:29:49 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/steve/public_html/voter/runScheduler.php:48) in /home3/steve/public_html/voter/header.php on line 17
