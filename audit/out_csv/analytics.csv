@@ -1,0 +1,4 @@
+"Precinct","BallotType","Reason for Provisional ballot","Age","Gender","Race","Governor","US HR district 23"
+"p1","regular","","44","female","black","Family Guy","Canova"
+"p0","provisional","Wrong polling place","","","","Family Guy","Shultz"
+"p0","provisional","Change of address","18-20","female","asian","Seinfeld","Canova"

@@ -7,7 +7,7 @@ include "header.php";
 	if( !empty($_POST['trackid'])) {
 		  
 		  $sql = "update generic_list set f4='" .time(). "' where id=" .$_POST['trackid']  ; 
-		  echo 'sql='.$sql; 
+		  //echo 'sql='.$sql; 
 		    
 		  mysqli_query( $currentDB, $sql );
 	}

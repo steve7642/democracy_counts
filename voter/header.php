@@ -16,8 +16,9 @@
 if ( empty($_SERVER['HTTPS'])){
 	   //header("location:https://coa520.com/voter/index.php"  );   
 }
-     
-   $currentDB = mysqli_connect("localhost","steve_520coa","vernon9!","steve_520coa");      
+  //comment out include for production server....    
+ include "../setDB.php";    //gets DB connection params on test server, comment this out for heroku or AWS 
+$currentDB = mysqli_connect(getenv('DBHOST'),getenv('DBUSER'),getenv('DBPASS'),getenv('DBDATABASE'));
 
 						 
 						$submitStyle = " style='font-size:24px; font-weight:bold; background-color:lightgreen; padding:5px; ' "; 

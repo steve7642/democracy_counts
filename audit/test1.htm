@@ -22,14 +22,17 @@
 		 
 	</style>
 </head> 
-<!--
+<!-- 
+                 coa520.com/audit/test1.htm
+                 
+                 
   <div id=e1 style="position:absolute; top:260px; left:5px;"> <input name=e1  > </div> 
   <div id=e1   > <input name=e1  > </div>
 -->
 <body> 
 <form name=ff method=post>
 <table>        
-	   <tr>  <td><input type=checkbox value=1 name=r1 id=r1 onclick='extend(this);'> R1 xx xx xx xx xxx xx xxx xx 
+	   <tr>  <td><input type=checkbox value=1 name=r1 id=r1 onclick='extend(this,1);'> R1 xx xx xx xx xxx xx xxx xx 
 	   	 	   
 	              <div id=e1 style='position:absolute; top:-260px; left:5px;'> <input name=e1  > </div> 
 	   
@@ -38,7 +41,11 @@
 	              <div id=e2 style='position:absolute; top:-260px; left:5px;'> <input name=e1  > </div>
 </table> 
 <script>
-	 function extend(o){ 
+	 function extend(o, exit=0){ 
+	 	if( exit==0){ 
+	 		 alert('exit ok'); 
+	 		 
+	 	}
 	 	  var e = document.getElementById('e'+o.value); 
 	 	  var r = document.getElementById('r'+o.value); 
 	 	  if( o.checked ) { 
@@ -53,8 +60,6 @@
 	 	  	  e.style.left = '0px'; 
 	 	  	  
 	 	  }
-	 	     
-	 	
 	 	}
 </script>
 </form></body></html> 

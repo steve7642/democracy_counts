@@ -69,6 +69,7 @@ include "header.php";
 		         <div style='color:red;'> 
 		                       Do not change this page after the start of the audit, else data will be lost! </div>             
 		                  &nbsp; <input type=button value='Add Candidate type ' onclick='xmit();'> 
+		                  &nbsp; <input type=button value='Add Office' onclick='xmit();'> 
 		                  &nbsp; <input type=button value='Update Page' onclick='xmitp();'> 
 		                  "; 
 		               

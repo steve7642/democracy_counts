@@ -4,15 +4,8 @@ $pageAlways ='1';
 include "header.php"; 	// returns query for $precinctId, $precinct, $domain, $auditname,  and calculation for $xmachine 
 
 
-		//precinct and domain dropdown
-		$optionP = '<option value="">Choose'; 
 		
-		$sql = "select f1 from generic_list where listType='precinct_list'";
-		$get = mysqli_query( $currentDB, $sql );
-		while ( $row = mysqli_fetch_array($get) ) { 
-				$optionP .= "<option value='".$row['f1']."'>".$row['f1'];
-		}
-		
+		//domain options
 		$optionDomain='<option value="">Choose'; 
 		$sql = "select f1 from generic_list where listType='domain_list'";
 		$get = mysqli_query( $currentDB, $sql );

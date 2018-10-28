@@ -24,16 +24,7 @@ include "header.php";
 		    include "menu.php"; 
 		   	echo "<td style='padding-top:20px; padding-left:20px; ' > <strong> REPORTS </strong> 
 		   	
-		   	<br>Each report has an CSV output file which can be read and reviewed with Excel or any editor of your choice. 
-		   	
-		   	<br><br> The Vote tally is displayed on the page with a CSV output link at the bottom.  
-		   	          The other reports only have a CSV file link.   
-		   	
-		   	<br><br> As of Oct 14, the Analytics reports use the ancillary data (eg, reasons for not voting, questionnaire ). 
-		   	 These ancillary data
-		   	   MUST be provided prior to the first real audit.   
-		   	   Immediately prior to the first audit, the audit data will be erased by the master administrator. <br>
-		   	      
+		   	   <br>    
  			   <select name=rtype  style=' height:36; width:400px; font-size:26px; '   id=rtype onchange='xrpt();'	  > 
  			      <option value=''> Choose Report. 
  			      <option value=tally> Vote tally
@@ -112,9 +103,66 @@ include "header.php";
 									writeFile($xfile, 'tally.csv', 'a');
 						   	 	echo "<br><a target=_blank href='https://coa520.com/audit/out_csv/tally.csv' > Tally CSV </a><br><br>"; 
 								
-							} else if( $rtype=='nonvoter'){  /////////////////////////////////////////////////
-								
-								   echo "<br> This report needs program data, ie questionnaire, to be done ";
+							} else if( $rtype=='nonvoter'){  /////////////////nonVoter Analytics //////////////////////////
+								  
+								  $hdr = '"Precinct","Age","Gender","Race","';
+								  
+								  reset($nameList); //continue header for why not vote page . 
+									while( list($k, $v) = each( $hdrA ) ){
+										if( $k > 0 ){
+											$hdr .= $v. '","'; 
+										}
+									}
+									reset($offices); 
+									while( list($officeId, $office_name) = each( $offices ) ){
+											$hdr .=  $office_name  .  '","'; 
+									}
+									$hdr = substr( $hdr,0, strlen($hdr)-2 ); 
+								  $hdr .=  "\r\n";   
+//echo $hdr;								  
+								  
+								  writeFile($hdr, 'nonVoterAnalytics.csv', 'w');
+								  $sql = "select * from generic_list where listType='nonvoter' order by id desc ";
+									$get = mysqli_query( $currentDB, $sql );
+									while ( $row = mysqli_fetch_array($get) ) { 
+										  $xrow = '"'; 
+											$precinct = $row['f10']; 
+											$age = $row['f21']; 
+											$gender = $row['f22']; 
+											$race = $row['f23']; 
+											$xrow .= $precinct. '","' .$age. '","'. $gender. '","'. $race. '","';  
+											
+											reset($nameList); 
+											while( list($k, $v) = each( $nameList ) ){
+												if( $k > 0 ){
+													 $xrow .=  $row[$v] . '","'; 
+												}
+											}
+/*
+while( list($k, $v) = each( $officer_names ) ){
+	echo '<br>officer_names k='.$k.' v='.$v; 
+}
+while( list($k, $v) = each( $candidates ) ){
+	echo '<br>candidates k='.$k.' v='.$v; 
+}
+*/ 
+											
+											$nonvoteId_f3 = $row['id'];  
+											//get the vote cast .....$officer_names[$row2['f2']]
+											$sql = "select f1, f2 from generic_list where listType='nonvotes' and f3='" .$nonvoteId_f3. "'";  
+									    $get2 = mysqli_query( $currentDB, $sql );
+											while ( $row2 = mysqli_fetch_array($get2) ) {
+//echo '<br>  f2='. $row2['f2']; 
+												
+														$xrow .= $candidates [$row2['f2']] .'","'; 
+											}
+											$xrow = substr( $xrow,0, strlen($xrow)-2 ); 
+										  $xrow .=  "\r\n";   
+											
+								      writeFile($xrow, 'nonVoterAnalytics.csv', 'a');
+										
+									}
+									echo "<br><br><a target=_blank href='https://coa520.com/audit/out_csv/nonVoterAnalytics.csv' > Non Voter Analytics  </a>"; 
 								   
 								   
 								   

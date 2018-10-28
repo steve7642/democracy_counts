@@ -2,11 +2,11 @@
 /*HANDLE CHECKBOXES  coa520.com/audit/testb.php     */
 $extq = array(); 
 $extWidg = array(); 
-$convertq = array("I was told by someone that I didn't have the right ID so I didn't go to the polls and try to vote.",
+$convertq = array("The lines are too long, I cannot wait",
                   "I was told by a poll official that I didn't have the right ID so I wasn't allowed to vote."); 
-$baseWidg=''; 
+$questions=''; 
 while( list($k, $v) = each( $convertq ) ){
-	  $baseWidg ."<input type=checkbox name=nonV_reason[] id=nonV_reason_".$k." value=".$k.">".$v; 
+	  $questions .= "<input type=checkbox name=nonV_reason[] id=nonV_reason_".$k." value=".$k.">".$v; 
 }
 
 /*
@@ -14,9 +14,9 @@ while( list($k, $v) = each( $convertq ) ){
 	<input type=checkbox name=nonV_reason[] id=nonV_reason_2 value='2'>two
 */
 
-$extq[0] = "Did you know the person who told you this? <br>"; 
+$extq[1] = "Did you know the person who told you this? <br>"; 
 
-$extWidg[0] ="&nbsp; &nbsp; <input type=radio name=ext0   value='Yes' > Yes <br>
+$extWidg[1] ="&nbsp; &nbsp; <input type=radio name=ext0   value='Yes' > Yes <br>
               &nbsp; &nbsp; <input type=radio name=ext0   value='No' > No <br>   ";
 
 
@@ -53,7 +53,7 @@ echo '<br>********';
 
 ?>
 <form method=post name=ff >
-	<!--- will work with single checkbox ---> 
+	 
 	<input type=checkbox name=nonV_reason[] id=nonV_reason_1 value='1'>one
 	<br> <input type=checkbox name=nonV_reason[] id=nonV_reason_2 value='2'>two
 	<?php 
@@ -71,7 +71,7 @@ echo '<br>********';
 </form>
 <script>
 	function done1(n){ 
-		  document.getElementById('flag1').value= ''+n;
+		  document.getElementById('flag1').value= ''+n;  
 			if( n== 7){
 				 // one check box or other to pass. 
 				  var boxesEL = document.getElementsByName("nonV_reason[]"); 

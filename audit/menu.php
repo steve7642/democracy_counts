@@ -5,7 +5,8 @@
 		   	if( $_SESSION['userLevel'] == 0 ){ // supervisor 
 		   		 echo "<td style='padding-top:20px; width:225px; ' > <strong> Supervisor Menu </strong> "; 
 		   		 echo " <div style='padding-left:12px; padding-top:18px; padding-bottom:8px; background-color:lightblue; ' > 
-					   		    <div style='  padding-top:1px; '>  <a href='reports.php'> Reports </a></div> 
+					   		    <div style='  padding-top:1px; '>  <a href='instructions.php'> Instructions </a></div> 
+					   		    <div style='  padding-top:18px; '>  <a href='reports.php'> Reports </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='precinct.php'> Register this device</a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='unregister.php'> Unregister devices </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='holding.php'> List Voters with expired voting codes</a></div> 
@@ -49,12 +50,12 @@
 		   		 echo " <div style='padding-left:12px; padding-top:18px; padding-bottom:8px; background-color:lightblue; ' > 
 					   		    <div  >                            <a href='addUser.php'> Add User </a> </div>
 					   		    <div style='  padding-top:8px; '>  <a href='listUsers.php'> List Users  </a></div> 
-					   		    <div style='  padding-top:18px; '>  <a href='candidates.php'> Candidates </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='reports.php'> Reports </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='addPrecincts.php'> Add Precinct </a></div> 
 					   		    <div style='  padding-top:8px; '>  <a href='listPrecincts.php'> List Precincts </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='addDomain.php'> Add Domain </a></div> 
 					   		    <div style='  padding-top:8px; '>  <a href='listDomains.php'> List Domains </a></div> 
+					   		    <div style='  padding-top:18px; '>  <a href='candidates.php'> Candidates </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='scheduled.php'> Scheduled Task on-off </a></div> 
 					   		    <div style='  padding-top:18px; '> <a href='logout-page.php'> Logout </a> </div> 
 		   		        </div> 

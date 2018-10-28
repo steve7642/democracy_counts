@@ -1,42 +1,13 @@
 <?php 
       
 // php -q /home3/steve/public_html/voter/runScheduler.php
+
+
 /*
-/opt/cpanel/ea-php56/root/usr/bin/php /home3/steve/public_html/voter/runScheduler.php
 
-/opt/cpanel/ea-php56/root/usr/bin/php /home/username/public_html/cron.php
-
-php /home3/steve/public_html/voter/runScheduler.php
-
-php/home3/steve/public_html/voter/runScheduler.php
-
-/home3/steve/public_html/voter/testb.php
-
-To create a cron job:
-
-/opt/cpanel/ea-php70/root/usr/bin/php /home3/steve/public_html/voter/runScheduler.php
-
-Command to run a PHP 5.6 cron job:
-
-/opt/cpanel/ea-php56/root/usr/bin/php /home3/steve/public_html/voter/runScheduler.php
-
-Command to run a PHP 5.5 cron job:
-
-/opt/cpanel/ea-php55/root/usr/bin/php /home3/steve/public_html/voter/runScheduler.php
-
-
-Click Add New Cron Job.
-/opt/cpanel/ea-php70/root/usr/bin/php /home3/steve/public_html/voter/runScheduler.php (?) 
-
-php -q /home3/steve/public_html/voter/runScheduler.php  (good 5 minutes ) 
-
-
-    https://coa520.com/voter/runScheduler.php 
-    
-    coa520.com/voter/runScheduler.php 
     
     
-    // this code works but will is not planned to be used.. scheduled task at server on and off.. 
+    // will not use this code.........to much trouble....................
     
     listType='schedTask'
     $currentDB = mysqli_connect("localhost","steve_520coa","vernon9!","steve_520coa");      
@@ -52,7 +23,7 @@ php -q /home3/steve/public_html/voter/runScheduler.php  (good 5 minutes )
     }
     
 */ 
-//		coa520.com/voter/runScheduler.php 
+//		coa520.com/voter/runScheduler.php for test.....
 
    include "tally.php";	//voter directory 
 		

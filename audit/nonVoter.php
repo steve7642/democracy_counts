@@ -6,21 +6,10 @@ include "header.php"; 	//=> $xmachine
 	
 	
 			
-  		if( !empty( $_POST['isregistered'] )){  //insert nonVoter record
-  			  $val =  $_POST['isregistered'];   //No Yes Maybe 
-  			  $sql = " insert into generic_list( listType, f1,f2 ) values ( 'nonvoter',
-  			           '" .$precinct. "','" .$val. "')" ;
-  			  mysqli_query( $currentDB, $sql );
-  			  $nonvoterId = getNewId($currentDB, 'nonvoter' );   
-
-//echo '<br>nonvoterId='.$nonvoterId; 
-  			         
-// select id,f1,f2,f3,f4,f5,f7,f8,f9,f10 from generic_list where listtype='nonvoter' 		 		  
-		 	} 
+ 		 	
+		 	if (!empty( $_POST['provision'] ) && false) {
 		 	
-		 	if (!empty( $_POST['provision'] )) {
-		 	
-		 				$nonvoterId = $_POST['nonvoterId'];
+		 				//$nonvoterId = $_POST['nonvoterId'];
 		 				$sql = "update generic_list set f5='".$_POST['provision']."' where 
 		 				         id=" .$nonvoterId; 
 //echo '<br>provision sql='.$sql; 
@@ -28,7 +17,8 @@ include "header.php"; 	//=> $xmachine
 		 				mysqli_query( $currentDB, $sql );          
 
 		 	}
- 			// COMMON UPDATES , not done yet in voter.php  
+ 			// different update listtype in vote.php 
+ 			 
  			if( isset( $_POST['age'] )){ // questionnaire insert...........
  					
 	 					$age = $_POST['age'];
@@ -36,16 +26,17 @@ include "header.php"; 	//=> $xmachine
 	 					$gender = $_POST['gender'];
 		 				$nonvoterId = $_POST['nonvoterId'];
 		 				$sql = " update generic_list 
-		 				          set f9='".$age."', f10='".$race."', f11='".$gender."' 
+		 				          set f21='".$age."', f22='".$race."', f23='".$gender."' 
 		 				            where id = ".$nonvoterId ;
+//echo '<br>questionnaire sql='.$sql; 
 		 				         
 		 				mysqli_query( $currentDB, $sql );          
  				
  			}
 		 	
-		 	if (!empty( $_POST['whynotreg'] )) {
+		 	if (!empty( $_POST['whynotreg'] ) && false ) {
 		 	
-		 				$nonvoterId = $_POST['nonvoterId'];
+		 				//$nonvoterId = $_POST['nonvoterId'];
 		 				$not_registered = $_POST['not_registered'];
 		 				$whyNotRegtxt = $_POST['whyNotRegtxt'];
 		 				$m_ = $_POST['m_'];
@@ -62,7 +53,7 @@ include "header.php"; 	//=> $xmachine
 		 				mysqli_query( $currentDB, $sql );          
 		 	}
 		 	
-		 	if (!empty( $_POST['notvotewhy'] )) { // registered but did not vote, why? 
+		 	if (!empty( $_POST['notvotewhy'] ) && false) { // registered but did not vote, why? 
 		 				$nonvoterId = $_POST['nonvoterId'];
 		 				$r_ = $_POST['r_'];
 //echo '<br>r_='.$r_.' nonvoterId='.$nonvoterId ; 
@@ -79,11 +70,7 @@ include "header.php"; 	//=> $xmachine
 		 				          
 		 				mysqli_query( $currentDB, $sql );   //other reason in f4...       
 		 	}
-		 	
-/*
-select id,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10  from generic_list where listtype='nonvoter'
-   order by id desc 
-*/		 	
+		 	 	
 		 	if (!empty( $_POST['prv'] )) {
 		 				$demog_id = $_POST['demog_id'];
 		 				$sql = "update generic_list set f6='".$_POST['prv']."' where 
@@ -102,7 +89,8 @@ select id,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10  from generic_list where listtype='nonv
 		 	}
 			if( !empty( $_POST['hvote'] )){
 //echo '<br>hvote'; 				
-				  //echo 'update action'; 
+				  //echo 'update action ballot nonvoter'; 
+				  $nonvoterId = $_POST['nonvoterId'];
 					$post = $_POST; 
 					if( is_array($post) ){ 
 						while( list($xname, $cid) = each( $post ) ){
@@ -112,8 +100,8 @@ select id,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10  from generic_list where listtype='nonv
 								$xid = substr($xname,2);
 
 								$sql = "insert into generic_list( listType, f1, f2 , f3, f9  ) values ( 'nonvotes', 
-								         '".$xid."','".$cid. "','". $demog_id. "','" .$userid. "')";
-echo '<br>hvote sql='.$sql;								           
+								         '".$xid."','".$cid. "','". $nonvoterId. "','" .$userid. "')";
+//echo '<br>hvote sql='.$sql;				select f1, f2 from generic_list where listType='nonvotes' and f3='23877'  				           
 								mysqli_query( $currentDB, $sql );     
 							}
 						}
@@ -148,14 +136,16 @@ echo '<br>hvote sql='.$sql;
 	    
 	    echo "<td style='padding-top:20px; padding-left:20px;  ' > ";
 		    
-		  $out0 = "<table> 
-		  	 <tr><td > <strong>Are you registered to vote? </strong>  
-		  	            <input type=hidden name=areyoureg value=1>          
-		     <tr><td > 
-	          <input type=radio " .$selectStyle." name=isregistered id=isregistered onclick='isreg(this);' value=Yes > Yes  &nbsp; &nbsp; 
-	          <input type=radio " .$selectStyle."  name=isregistered id=isregistered onclick='isreg(this);' value=No > No   &nbsp; &nbsp; 
-	          <input type=radio " .$selectStyle."  name=isregistered id=isregistered onclick='isreg(this);' value=Maybe > Not Sure  &nbsp; &nbsp; 
-	             
+		  $out0 = "<table id=novoteContainer > 
+		  	 <tr><td > <strong>I came to this polling precinct to vote, <br> 
+		  	                     But I did not vote.  </strong>  
+		  	                     <br><br> 
+		  	                     Please select the reason or reasons you did not vote. 
+		  	                     
+		  	            <!-- <input type=hidden name=areyoureg value=1>      --> 
+		  	                
+         <tr><td > <!-- add from header2 $novote --> ".$novote. "
+             
 		  </table> 
 		  <input type=hidden name=regval id=regval >  <!-- Yes No Maybe --> 
 		      ";
@@ -205,7 +195,7 @@ echo '<br>hvote sql='.$sql;
 		 		 
 		 	} else if (  $_POST['provision']=='regular' ){
 		 		
-		 		 echo "Had you voted, who would you have voted for?<br><br>". 
+		 		 echo "OBSOLETE?<br><br>". 
 		 		             $ballot;                              
 		 		 echo "<script>  document.getElementById('flag1').value='8'; </script> ";
 		 		 
@@ -237,6 +227,27 @@ echo '<br>hvote sql='.$sql;
 	  </table>
 	  
 		</form>
+<script>
+	 function extend(o, exit=0){ 
+	 	//if exit==1 confirm go to next page
+	 	  var e = document.getElementById('e'+o.id); 
+	 	  //var r = document.getElementById('r'+o.value); 
+	 	  if( o.checked ) { 
+	 	  	
+	 	  	  e.style.position = 'relative'; 
+	 	  	  e.style.top  = '0px'; 
+	 	  	  e.style.left = '40px'; 
+	 	  	  //e.style.fontSize = r.style.fontSize; 
+	 	  			
+	 	  } else { //unchecked remove extension
+	 	  	  e.style.position = 'absolute'; 
+	 	  	  e.style.top  = '-999px'; 
+	 	  	  e.style.left = '0px'; 
+	 	  	  
+	 	  }
+	 	}
+</script>
+
 	  <script>
 	     function isreg(o){ 
 	     		document.getElementById('regval').value = o.value; 
@@ -273,18 +284,27 @@ echo '<br>hvote sql='.$sql;
 	  	 	} else if (d=='2')  {  
 	  	 		var o =document.getElementById('provision'); if(o.value == ''){o.focus(); alert( 'Select Ballot type'); return false;  }
 	  	 	
-	  	 	} else if (d=='3')  {  //if pass, show ballot
-	  	 		//not vote why? must check at least one box non voter
-	  	      var inobj  = (document.getElementById('noVoteWhyTab')).getElementsByTagName('input');  
-   	      	var nc = 0; 
-   	      	 
-	  	      for(var k=0; k<inobj.length; k++) {  
-	  	      		if ( inobj[k].checked ){
-	  	      				nc = 1; 
-	  	      		}
-	  	      }
+	  	 	
+	  	 	
+	  	 	} else if (d=='3')  {  //if pass, show ballot nonvoter 
+	  	 		                    //Must have some input, page at header2 $novote
+	  	 		  var otherVal = document.getElementById('f16').value; 
+	  	 		  var nc=0;
+	  	 		  if( otherVal != ''){
+	  	 		  	  nc=1; 
+	  	 		  } else { 
+			  	      var inobj  = (document.getElementById('novoteContainer')).getElementsByTagName('input');  
+		   	      	var nc = 0; 
+		   	      	 
+			  	      for(var k=0; k<inobj.length; k++) {  
+			  	      		if ( inobj[k].checked ){
+			  	      				nc = 1; 
+			  	      		}
+			  	      }
+	  	 		  }
+	  	 		
 						if(nc==0) { 
-	  	      	 alert('You must select at least one item'); 
+	  	      	 alert('You must select at least one item or enter Other Reason'); 
 	  	      	 return false; 
 						}
 	  	 	
@@ -318,8 +338,8 @@ echo '<br>hvote sql='.$sql;
 						}
 	  	 		   
 	  	 	} else if (d=='99')  { //confirm questionnaire, another script for voter
-              var o = document.getElementById('age'); 
-              if( o && ( isNaN(o.value) || o.value=='' ) ) { alert('Age must be a number'); o.focus(); return false; }
+              //var o = document.getElementById('age'); 
+              //if( o && ( isNaN(o.value) || o.value=='' ) ) { alert('Age must be a number'); o.focus(); return false; }
 
 	   	 		   
 	  	 	}
