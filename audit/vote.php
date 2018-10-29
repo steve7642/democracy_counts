@@ -156,13 +156,13 @@
 
       include "header2.php"; 
       
-      //include "xlist.php";  // computer list for anonymouse voters available, obsolete. 
       
       if( !empty($_POST['getvote']) ){ 
       	$_POST['trackId'] =  $_POST['getvote'];
       	
       }
-      
+//  echo '<br>domain='.$domain.'*'; 
+     
 ?>
 <form method=post name=ff id=ff>   
 		<input type=hidden   name=flag1 id=flag1 
@@ -271,7 +271,7 @@ document.getElementById('phone').value = '". $_POST['phone'] ."';
 				} else if ( $flag=='4'){ 
 				 		$voteCode = getBallotNumber($currentDB, $trackId );
 				 		$txt = "Your vote is counted !  <br><br> ". $voteCode. " is your secret vote code. 
-				 		 Write it down and you can confirm your vote from your phone or computer.  Use coa520.com/voter . <br><br> ";
+				 		 Write it down and you can confirm your vote from your phone or computer.  Use ".$domain."/voter . <br><br> ";
 				 		
 				 		 echo $txt.$afterVote; //Would you answer a few additional questions
 					

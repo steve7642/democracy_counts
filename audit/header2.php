@@ -27,6 +27,7 @@
 <tr><td style=" padding-left:0px; width:600px; " >  
 
 <?php	 
+
 //echo 'userlevel='.  $_SESSION['userLevel'] ; 
 	   if( $_SESSION['userLevel']  !=   '1'      ) {
 	   		$xlogo = ' <a href="index.php"><img width="600px;" align=left src="votingLogo.png"></a>';
@@ -101,13 +102,126 @@
 		
 <?php 
 
+     $nameList = array('', 'f1','f2','f3','f4', 'f12', 'f13','f14','f15','f16' );
+     // 
+     $presetValue = array();
+     $presetValue[1] = 'Y';
+     $presetValue[2] = 'Y';
+     $presetValue[3] = 'Y';
+     $presetValue[4] = 'Y';
+     $presetValue[12] = array('Received official mailer','Received mailer appeared official');
+     $presetValue[13] = '';
+     $presetValue[14] = '';
+     $presetValue[15] = array('Sent to another polling place','NOT Sent to another polling place');
+     $presetValue[16] = '';
+
+     $hdrA = array();
+     $hdrA[1] = 'Lines too long';
+     $hdrA[2] = 'ID not right';
+     $hdrA[3] = 'Wrong polling place';
+     $hdrA[4] = 'Mis_Marked ballot';
+     $hdrA[12] = 'Mailer';
+     $hdrA[13] = 'Someone told me this was the polling place';
+     $hdrA[14] = 'Other reason thought this was polling place';
+     $hdrA[15] = 'Sent to another voting place';
+     $hdrA[16] = 'Other Reason for not voting';
+
+$qn = array(); $ext = array();  
+
+$qn[1] = " I went to the polling place but the lines were so long that I could not stay."; 
+$qn[2] = " I was told by a poll official that I did not have the right ID so I was not allowed to vote."; 
+
+$qn[3] = " I was told that I was not on the voter list and I could not vote at that polling place."; 
+  $htm3 = "<br> <em> Did you believe that you were at the correct polling place? </em> 
+             <br><br> &nbsp; &nbsp; If yes, why did you believe you were in the right place? 
+             <br> &nbsp; &nbsp;<table><tr><td>
+                      <input  ".$selectStyle."      type=radio name=_f12 value='" .$presetValue[12][0]. "'> 
+                      <td> Received an official mailer with the address
+             <br> <tr><td> <input  ".$selectStyle." type=radio name=_f12 value='" .$presetValue[12][1]. "'>  
+                   <td> Received a mailer that looked official with the address </table> 
+             <br><br> &nbsp; &nbsp; &nbsp; &nbsp; Was told this was the polling place by 
+                 <br> &nbsp; &nbsp; &nbsp; &nbsp;<input name=_f13  style=' height:36; width:505px; font-size:26px; ' > 
+             <br><br> &nbsp; &nbsp; &nbsp; &nbsp; Other Reason 
+                 <br> &nbsp; &nbsp; &nbsp; &nbsp;<input name=_f14  style=' height:36; width:505px; font-size:26px; ' > 
+             
+             <br><br> &nbsp; &nbsp; If no, were you sent to another polling place? 
+                <br> &nbsp; &nbsp; &nbsp; &nbsp;  <input type=radio  ".$selectStyle." name=_f15 value='" .$presetValue[15][0]. "' >Yes &nbsp; 
+                                                  <input type=radio  ".$selectStyle." name=_f15 value='" .$presetValue[15][1]. "' >No &nbsp; 
+              "; 
+  $ext[3] ="<div id=e3 style='position:absolute; top:-9999px; left:5px;'> ".$htm3."<br><br></div>"; 
+
+$qn[4] = " I mis-marked my ballot and they would not give me a new one."; 
+
+   //db update......
+	if( !empty($_POST['nonvoterReasonInsert'])){
+	 		if( !empty( $_POST['nonvoterReasonInsert'] )){  //insert nonVoter record
+	  			  $sql = " insert into generic_list( listType, f10 ) values ( 'nonvoter',
+	  			           '" .$precinct.  "')" ;
+	  			  mysqli_query( $currentDB, $sql );
+	  			  $nonvoterId = getNewId($currentDB, 'nonvoter' );   
+			} 
+
+
+			$pout = ''; 
+			
+			$datav = '';               
+			while( list($k, $v) = each( $_POST ) ){
+				
+				$cx = substr( $k, 0, 1 );
+//echo '<br>K='.$k.' v='.$v.' cx='.$cx;
+				if ( $cx == '_') { 
+					 $dbf = substr( $k, 1 );
+					 $dbv = $v; 
+				}  
+//echo ' dbf=' .$dbf. ' dbv='.$dbv.' v?='.$v; 
+				if( !empty( array_search ( $dbf , $nameList )	)){
+					 $datav  .=   $dbf ."='". $dbv  ."',";  
+				}
+				$pout .= '<br>dbf='.$dbf.' v='.$dbv;
+			}
+			$datav = substr( $datav,0, strlen($datav)-1 ); 
+			$sql = "update generic_list set ".$datav. " 
+			             where id=".$nonvoterId; 
+			mysqli_query( $currentDB, $sql );
+			
+			$pout .= '<br>update sql=select * from generic_list where id='.$nonvoterId.' order by id desc'; 
+			
+			
+			writeFile(($pout .'<br><br>'.$sql), 'nonvoterpost.htm', 'w');
+		
+	}
+
+
+
+
+  
+$novote='';   //add to $novote0 in nonVoter.php
+ksort($qn); 
+
+		while( list($k, $v) = each( $qn ) ){
+			//$novote .= '<tr><td>k='.$k.' v='.$v ; $presetValue[$k]   $presetValue[1]
+					if( !empty($ext[$k])) {
+							$novote .= "<tr><td><table><tr><td><input ".$selectStyle." type=checkbox value='".$presetValue[$k]."' name=_f".$k." id=".$k. 
+							             " onclick='extend(this, 0);'> <td> " .$v ."</table>";  
+						  $novote .= $ext[$k];   ////////////////// widgets given above
+					}  else {
+							$novote .= "<tr><td><table><tr><td><input ".$selectStyle." type=checkbox value='".$presetValue[$k]."' name=_f".$k." id=".$k. 
+							             " > <td> " .$v ."</table>";  
+						
+					}           
+			    
+		}
+		$novote .= "<tr><td>Other Reason for not voting "; 
+		$novote .= "<tr><td><input name=_f16 id=f16  style=' height:36; width:505px; font-size:26px; ' >"; 
+		 
+	  $novote .= "<tr><td><input ".$submitStyle." type=button value=Next onclick='done1(3);' ><br><br>  "; 
+
+    $novote .= "<input type=hidden name=nonvoterReasonInsert  value=1>";  //insert in header with listType=nonvoter 
+    
+    
 /*
-1. I was told by someone that I didn't have the right ID so I didn't go to the polls and try to vote.
-            a. Did you know the person who told you this? y/n
-                     If yes, how well? 
-            b. Why did you believe him/her? _____________
-2. I was told by a poll official that I didn't have the right ID so I wasn't allowed to vote.
-3. I was told that I wasn't on the voter list and I couldn't vote at that polling place. 
+exit8. I mis-marked my ballot and they wouldn't give me a new one.
+exit3. I was told that I wasn't on the voter list and I couldn't vote at that polling place. 
            a. Did you believe that you were at the correct polling place? 
                         I. If yes, why did you believe you were in the right place?
                               A. I received an official mailer with the address
@@ -116,27 +230,42 @@
                               D. Other _____________
            b. Were you sent to another polling place? y/n
                         I. If so, how many polling places did you visit? /__/
-4.  I went to the polling place but the lines were so long that I couldn't stay.
-5.  I went to the polling place but they told me 
+exit1. I went to the polling place but the lines were so long that I couldn't stay.
+
+xxx1. I was told by someone that I didn't have the right ID so I didn't go to the polls and try to vote.
+            a. Did you know the person who told you this? y/n
+                     If yes, how well? 
+            b. Why did you believe him/her? _____________
+            
+exit2. I was told by a poll official that I didn't have the right ID so I wasn't allowed to vote.
+
+xxxx5.  I went to the polling place but they told me 
            a. The machines weren't working
            b. They had run out of ballots
-6. I went to the polling place on the wrong day because ______________________.
-7. I was prevented from getting to the polling place and this is what happened: ______________________
-8. I mis-marked my ballot and they wouldn't give me a new one.
-9. I was told that I might be arrested.
-             By whom? ______________
-10. I was scared. 
+xxxx6. I went to the polling place on the wrong day because ______________________.
+xxxx7. I was prevented from getting to the polling place and this is what happened: ______________________
+exit8. I mis-marked my ballot and they wouldn't give me a new one.
+xxxx9. I was told that I might be arrested.
+             By whom? ______________   exit 
+             
+             
+xxx10. I was scared. 
              Why? _____________
-11. I never received a notice telling me where I should vote.
-12. I checked before the election and found that I wasn't registered to vote.
+xxx11. I never received a notice telling me where I should vote.
+xxx12. I checked before the election and found that I wasn't registered to vote.
               Have you voted before?
                         If not, did you register to vote? y/n
                                        If yes, about when? _________
                                                  With whom? __________
                         If yes, about how many times? ____
 
+$qn
 
 */ 
+						
+
+
+
 // OUTPUT SHARED ON VOTER AND NON VOTER PAGES. /////////////////////////////////////////////////////
 
 	  /////// registered but did not vote, why? 
@@ -209,17 +338,18 @@
 		   
 		   $outQ0 = "<strong>QUESTIONAIRE</strong>
 		               <table> 
-		                <tr><td>What is your age? 
-		                    <td><input ".$inputStyle." name=age id=age >
-		                <tr><td>What is your gender? 
-		                    <td><select  ".$dropStyle." name=gender id=gender > 
+		                <tr><td colspan=2><select  ".$dropStyleWide." name=age id=age > 
+		                           " .$ageOpts. "
+		                          </select>  
+		                <tr><td colspan=2><select  ".$dropStyleWide." name=gender id=gender > 
+		                            <option value=''> What is your Gender? 
 		                            <option value='male'>Male
 		                            <option value='female'>Female
 		                            <option value=other> Other
-		                          </select> 
+		                          </select>
 		                
-		                <tr><td> What is your race?  
-		                    <td> <select ".$dropStyle." name=race id=race > 
+		                <tr><td colspan=2> <select ".$dropStyleWide." name=race id=race > 
+		                          <option value=''>What is your race? 
 		                          <option value=white>White
 		                          <option value=black>Black or African American
 		                          <option value=asian>Asian
@@ -266,6 +396,8 @@
 				while( list($xid, $vname) = each( $offices ) ){
 						$tab .= "<tr><td colspan=2> &nbsp; <tr><td colspan=2>".$vname; 
 						while( list($cid, $name) = each( $officer_names[$xid] ) ){
+//echo '<br>officerid='.$cid." name=".$name.' xid='.$xid; 
+							
 							 $tab .= "<tr><td> &nbsp; &nbsp; <td> <tr><td> &nbsp; &nbsp; <td> 
 							   <input ".$selectStyle." type=radio value=".$cid." name=v_".$xid.">".$name; 
 						}

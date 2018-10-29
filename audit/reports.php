@@ -101,7 +101,7 @@ include "header.php";
 									echo $tab ."</table>"; 
 									
 									writeFile($xfile, 'tally.csv', 'a');
-						   	 	echo "<br><a target=_blank href='https://coa520.com/audit/out_csv/tally.csv' > Tally CSV </a><br><br>"; 
+						   	 	echo "<br><a target=_blank href='https://".$domain."/audit/out_csv/tally.csv' > Tally CSV </a><br><br>"; 
 								
 							} else if( $rtype=='nonvoter'){  /////////////////nonVoter Analytics //////////////////////////
 								  
@@ -162,7 +162,7 @@ while( list($k, $v) = each( $candidates ) ){
 								      writeFile($xrow, 'nonVoterAnalytics.csv', 'a');
 										
 									}
-									echo "<br><br><a target=_blank href='https://coa520.com/audit/out_csv/nonVoterAnalytics.csv' > Non Voter Analytics  </a>"; 
+									echo "<br><br><a target=_blank href='https://".$domain."/audit/out_csv/nonVoterAnalytics.csv' > Non Voter Analytics  </a>"; 
 								   
 								   
 								   
@@ -189,11 +189,11 @@ while( list($k, $v) = each( $candidates ) ){
 										           
 								       writeFile($csv, 'intake.csv', 'a');
 									}
-							   	 	echo "<br><a target=_blank href='https://coa520.com/audit/out_csv/intake.csv' > Intake CSV </a><br><br>"; 
+							   	 	echo "<br><a target=_blank href='https://".$domain."/audit/out_csv/intake.csv' > Intake CSV </a><br><br>"; 
 							  
 							} else if( $rtype=='analytics'){  /////////////////////to modify when list is in if ever ! //////////////////////////////////////////////////
 	
-								   echo "<br> This report needs program data, ie questionnaire, to be completed ";
+								  // echo "<br> This report needs program data, ie questionnaire, to be completed ";
 	
 								
 							    $analyticsOut ='"Precinct","BallotType","Reason for Provisional ballot","Age","Gender","Race';
@@ -265,7 +265,7 @@ while( list($k, $v) = each( $candidates ) ){
 									    writeFile($analytics, 'analytics.csv', 'a');
 									}
 									
-									echo "<br><br><a target=_blank href='https://coa520.com/audit/out_csv/analytics.csv' > Analytics CSV </a>"; 
+									echo "<br><br><a target=_blank href='https://".$domain."/audit/out_csv/analytics.csv' > Analytics CSV </a>"; 
 									
 							} else if( $rtype=='?'){
 								

@@ -1,20 +1,24 @@
 <?php 	
 /* ABOVE THE BODY TAG */ 
 //no login required.. 
-
+  
     $realRootPathExt = 'audit'; 
     $httpPrefix="https://"; 
-
   	$realRoot = realpath(""); //no trailing slash, 
- 	$realRootPath = $realRoot."\\"; 
-	$rootUri =    $httpPrefix . $_SERVER['HTTP_HOST']   ; //NO TRAILING SLASH 
-	$rootUri .= "/".$realRootPathExt; 
+ 	  $realRootPath = $realRoot."\\"; 
+		$host = $_SERVER['HTTP_HOST'];
+		$domain = $host; 
+
+		$uriPrefix =   $_SERVER['REQUEST_URI']; 
+		$uriRedirect = $httpPrefix. $host . $uriPrefix;
+ 	
+		$loginPage =  $httpPrefix. $host ."/". $realRootPathExt."/login.php";
 
 
    // require_once "checkAuthorized.php"; //starts session
 
 if ( empty($_SERVER['HTTPS'])){
-	   //header("location:https://coa520.com/voter/index.php"  );   
+	 /////////////////////
 }
   //comment out include for production server....    
  include "../setDB.php";    //gets DB connection params on test server, comment this out for heroku or AWS 

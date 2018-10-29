@@ -1,18 +1,21 @@
-  <table><tr><td> <strong> Auditing Process </strong> 
+  <table><tr><td> <strong> Auditing Process on voting day</strong> 
 <ol> 
-<li>Each precinct being covered will have a team outside ready to get a parallel vote. 
+<li>Each precinct being covered will have a team outside ready to get a parallel vote from voters as they exit voting area. 
 
-<li>Each team will have at all times a designated supervisor who will keep track of auditors doing the parallel vote. This supervisor 
+<li>Each team will have at all times a designated supervisor who will keep track of auditors administering the parallel vote. This supervisor 
 	   is given a strong password to open the application.  The supervisor reveals this password to no one else.  
 
 <li>Supervisor activities
 	 <ul>
     <li>Supervisor will set up his/her own device at the center point of the auditing region.  
-      The bounds of the auditing region should be reasonably small.  Auditor devices will not operate if they are too far away from 
+      The bounds of the auditing region should be reasonably small (150 yard radius or less).  Auditor devices will not operate if they are too far away from 
       the auditing region. 
     <li>Supervisor will regiser his/her own device at the center point, and click on the Set-Reset Center link.  
-    <li>Supervisor will register the device of each Citizen Auditor and logout. The device is return to the auditor with login credentials 
-    	    and other instructions as deemed necessary. 
+    <li>Supervisor will register the device of each Citizen Auditor by logging into auditor's device as supervisor, 
+    	registering the device
+    	   ( without centering ) and logging out.  Supervisor then returns the device to the auditor.  Supervisor is 
+    	   careful to not let the auditor know the supervisor login credentials. 
+    	 
     </ul>    
 <li>Auditor activites
 	 <ul>
@@ -36,13 +39,13 @@
 	<ul>
 		  <li>
 		  	After voters post their "parallel vote", a code is provided that the voter can use to confirm their own 
-		  	vote from any Internet platform without login.  https://coa520.com/voter <br>
+		  	vote from any Internet platform without login.  https://<?php echo $domain; ?>/voter <br>
 		  	The voter must write down the code as it is 7 random digits. 
 		  	
 		  <li> 
 		  	 The vote count is saved to a backup every 5 minutes by a task running in the background.  
 		  	 This vote count can be reviewed by any interested party without login at
-		  	   https://coa520.com/voter/tallyrun.php 
+		  	   https://<?php echo $domain; ?>/voter/tallyrun.php 
 		  	
 		 
 	</ul>

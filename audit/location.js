@@ -32,9 +32,11 @@
 
    $msg = "The device is out or range, you will logged out.  Return to audit area to contine. "; 	
  					  $js .= " var distance = findDistance  (centerLat,centerLong,  currentLat, currentLong); 
+ 					     //alert('distance='+distance);
+ 					     // not to exceed 250 meters. /////////////////////  manual update line //////////////////////////////
  					               
- 					            if( distance >  0  && deactivate=='' && "  .$_SESSION['userLevel'].  " == 1   ) { 
-  					             if( confirm(".'"'.$msg. '"'.  ")){ 
+ 					            if( distance >  250  && deactivate=='' && "  .$_SESSION['userLevel'].  " == 1   ) { 
+  					             if( alert(".'"'.$msg. '"'.  ")){ 
  					                    document.location='logout-page.php';
  					               }
 

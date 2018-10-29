@@ -4,10 +4,18 @@
 
     $realRootPathExt = 'audit'; 
     $httpPrefix="https://"; 
-
   	$realRoot = realpath(""); //no trailing slash, 
- 	$realRootPath = $realRoot."\\"; 
-	$rootUri =    $httpPrefix . $_SERVER['HTTP_HOST']   ; //NO TRAILING SLASH 
+ 	  $realRootPath = $realRoot."\\"; 
+		$host = $_SERVER['HTTP_HOST'];
+		$domain = $host; 
+
+		$uriPrefix =   $_SERVER['REQUEST_URI']; 
+		$uriRedirect = $httpPrefix. $host . $uriPrefix;
+ 	
+		$loginPage =  $httpPrefix. $host ."/". $realRootPathExt."/login.php";
+ 	
+ 	
+	$rootUri =    $httpPrefix . $host   ; //NO TRAILING SLASH 
 	$rootUri .= "/".$realRootPathExt; 
 
 $milliseconds0 = round(microtime(true) * 1000);
@@ -18,9 +26,13 @@ $milliseconds0 = round(microtime(true) * 1000);
 if ( empty($_SERVER['HTTPS'])){
 	   header("location:https://coa520.com/audit/index.php"  );   
 }
-     
-   $currentDB = mysqli_connect("localhost","steve_520coa","vernon9!","steve_520coa");      
 
+    
+ include "../setDB.php";   // Eric:  delete this line so that your bat file is not overridden !  
+
+
+//getenv('DOMAIN');    
+$currentDB = mysqli_connect(getenv('DBHOST'),getenv('DBUSER'),getenv('DBPASS'),getenv('DBDATABASE'));
 
    
          //////////////////////////////////////////////// machine and userid
@@ -56,7 +68,7 @@ fclose($fh);
 										$precinctId = $row['id']; 
 										$precinct = $row['f1']; 
 										$auditname = $row['f3']; 
-										$domain = $row['f5']; 
+										//$domain = $row['f5']; 
 										//$xmachine = $row['f2'];   
 									  
 									  //get center  and active status... 
@@ -82,19 +94,13 @@ fclose($fh);
 						$selectStyle = " style='height:65px; width:65px; vertical-align: middle;' ";   //checks and radio 
 						
 						$dropStyle = " style=' height:36; width:200px; font-size:26px; '  ";  //dropdowns
+						$dropStyleWide = " style=' height:36; width:400px; font-size:26px; '  ";  //dropdowns
 						
 						$inputStyle = " style=' height:36; width:305px; font-size:26px; '  "; //text input boxes
 		 		      
 						$timeLimit =33333; //minutes for list availability
 						
-						if( isset($_SESSION['userLevel'])){
-							if( $_SESSION['userLevel']=='0' ) {
-								 $isAdmin = true; 
-							}  else {
-								 $isAdmin = false; 
-							}
-							
-						}
+						//
 						
 						//get vote from selection  
 						if( !empty($_POST['getvote'])){
@@ -175,11 +181,35 @@ $zmsg = '<br>lastpdate='.$dt.' hourago='.$onehourago;
 					$get2 = mysqli_query( $currentDB, $sql );
 					while ( $row = mysqli_fetch_array($get2) ) { 
 							$officer_names [$officeId][$row['id']] =  $row['f1'];
-//echo '<br>Candidate refs='.$officeId.' '.$row['id'].' '.$row['f1']; 
-							$candidates[$row['id']] = $row['f1']; 
+							$candidates[$row['id']] = $row['f1'];   //for report display
 					}
 			}
-							
+
+		//precinct options
+		$optionP = '<option value="">Choose'; 
+		
+		$sql = "select f1 from generic_list where listType='precinct_list'";
+		$get = mysqli_query( $currentDB, $sql );
+		while ( $row = mysqli_fetch_array($get) ) { 
+				$optionP .= "<option value='".$row['f1']."'>".$row['f1'];
+		}
+
+		//Age options
+		$ageA = array(); 
+		$ageA['18-20']	= '18-20'; 
+		$ageA['21-25']	= '21-25'; 
+		$ageA['26-30']	= '26-30'; 
+		$ageA['31-40']	= '31-40'; 
+		$ageA['40 plus']	= '40 plus'; 
+		
+		$ageOpts = "<option value=''>Your Age?";   
+		while( list($k, $v) = each( $ageA ) ){
+			 $ageOpts .= "<option value='" .$v. "'>" .$v; 
+		}
+
+		
+		
+						
     function writeFile($data, $fname, $mode){
     	
 				$myFile = "out_csv/".$fname; 

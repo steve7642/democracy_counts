@@ -1,4 +1,3 @@
 "Precinct","Age","Gender","Race","Lines too long","ID not right","Wrong polling place","Mis_Marked ballot","Mailer","Someone told me this was the polling place","Other reason thought this was polling place","Sent to another voting place","Other Reason for not voting","Governor","US HR district 23"
-"p0","21-25","black","female","Y","Y","Y","Y","Received mailer appeared official","jack ","other reason could not vote","Sent to another polling place","not voting other reason","Seinfeld","Shultz"
-"p0","40 plus","white","male","","","Y","","Received mailer appeared official","","","","","Seinfeld","Canova"
-"p0","","","","","","","Y","","","","",""
+"p1","40 plus","white","female","Y","Y","Y","Y","Received mailer appeared official","jack ","other reason could not vote","Sent to another polling place","not voting other reason","Shultz","Seinfeld"
+"p1","18-20","pacific islander","male","Y","","","","","","","","","Canova","Family Guy"
