@@ -21,7 +21,7 @@ if ( empty($_SERVER['HTTPS'])){
 	 /////////////////////
 }
   //comment out include for production server....    
-// include "../setDB.php";    //gets DB connection params on test server, comment this out for heroku or AWS 
+// include "../setDB.php";    //gets DB connection params on test server, 
 $currentDB = mysqli_connect(getenv('DBHOST'),getenv('DBUSER'),getenv('DBPASS'),getenv('DBDATABASE'));
 
 						 
