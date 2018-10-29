@@ -28,7 +28,7 @@ if ( empty($_SERVER['HTTPS'])){
 }
 
     
- include "../setDB.php";   // Eric:  delete this line so that your bat file is not overridden !  
+// include "../setDB.php";   // Eric:  delete this line so that your bat file is not overridden !  
 
 
 //getenv('DOMAIN');    
