@@ -24,7 +24,7 @@ $milliseconds0 = round(microtime(true) * 1000);
     require_once "checkAuthorized.php"; //starts session
 
 if ( empty($_SERVER['HTTPS'])){
-	   header("location:https://coa520.com/audit/index.php"  );   
+	   header("location:https://".$domain."/audit/index.php"  );   
 }
 
     
