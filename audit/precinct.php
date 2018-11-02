@@ -86,22 +86,6 @@ echo '<br> insert sql='.$sql;
 					     
 		} 
 		
-		/*
-		if( !empty( $precinctId )) { 
-			
-			   	$sql = "select f2,f3,f4 from generic_list where f1='" .$precinct.
-			   	              "' and listtype='center machine' "; 
-			   	              
-		   		$get = mysqli_query( $currentDB, $sql );
-		  		while ( $row = mysqli_fetch_array($get) ) { 
-		  				$glatd = $row['f2'];
-		  				$glongd = $row['f3'];
-		  				$activerange = $row['f4']; 
-		  				
-		  		}
-			
-			}
-			*/  
 	
 ?> 
 
@@ -145,7 +129,7 @@ echo '<br> insert sql='.$sql;
 		               <tr><td>Precinct  Code:  <td><select  " .$dropStyle. "          
 		                     name=precinct id='precinct' > " .$optionP ."</select> 
 		               <tr><td>Auditor Name:    <td><input " .$inputStyle." name=auditname id=auditname> 
-		               <tr><td>Domain:   <td><select ".$inputStyle. " name=domain id=domain> " .$optionDomain ."</select>  ";
+		               <tr><td>Current Domain:   <td><select ".$inputStyle. " name=domain id=domain> " .$optionDomain ."</select>  ";
 		    
  
 		    // get center 
@@ -162,32 +146,24 @@ echo '<br> insert sql='.$sql;
 						 }
 		    }
 
-		    $out.= "  <tr><td > Current Position:<td> <p id='geoloc'></p> 
-		                        <!-- theis values are set from the location script -->
+		    $out.= "  <tr><td > Current Position:<td> <p id='geoloc'></p> "; 
+		    
+
+		    		$out.=" <!-- theis values are set from the location script -->
 		    
 		              <tr><td>  <a href='javascript:setcenter();'> Set-Reset Center   </a> 
 		               
 		                       <br> <input ".$selectStyle." type=checkbox name=deactivate id=deactivate ".$notactive." value=1> 
 		                           <span style='font-size:18px;'> Deactivate </span> 
-		                       
-		                        
                   <input type=hidden name=setc id=setc >
-                  
                         
 		                           <td> <input readonly " .$inputStyle. " name=glatd id=glatd 
 		                                value='".$glatd."' 
 		                           >  
 
-		              <tr><td>     <td> <input readonly " .$inputStyle. " name=glongd id=glongd 
+		                          <br> <input readonly " .$inputStyle. " name=glongd id=glongd 
 		                                value='".$glongd."' 
 		                           >   
-		            <!---               
-		               <tr><td>Active Range(meters):    <td><input " .$inputStyle." name=activerange id=activerange 
-		                               value='".$activerange."'
-		                           >  
-		            --->               
-		                           
-		                           
 			          <script> 
 								   var geoloc = document.getElementById('geoloc');
 								   
@@ -196,26 +172,16 @@ echo '<br> insert sql='.$sql;
 								   var glong0 = document.getElementById('currentLong');
 			             
 			             function setcenter(){
-			             
-	//alert ( 'glat0=' +glat0.value); 
-	
-			                 //document.getElementById('glat0').value = glat0.value; 
-			                 //document.getElementById('glong0').value = glong0.value; 
-	
 			                 document.getElementById('setc').value='1'; 
 			                 document.ff.submit(); 
-			                 
 			             }
 			          </script> ";
+			          
+			          
+			          
 		    
 		    $out.=  "<tr><td colspan=2>Machine id:   ".   $xmachine; 
 
-/*		     
-		    $out.=  "<tr><td colspan=2> <!-- find distanceToCenter --> 
-		               <a href='javascript:distanceCenter(glat0.value,glong0.value, 0, 0);'>
-		               Get current distance to center </a> 
-		               <p id=dist></p> "; 
-*/		               
 		               
 		    $out.=  "<tr><td colspan=2>
 		    <input ".$submitStyle." type=button value='Register this Device' onclick='xmit();'>  ";       
@@ -236,8 +202,9 @@ echo '<br> insert sql='.$sql;
 					            if(o){ o.value ='" .$activerange."'; }
 					         </script>"; 
 				}
-				                  
-				echo $out; 
+				
+						echo $out; 
+				 
 		     
 
 		?>

@@ -38,7 +38,7 @@ https://coa520.com
 coa520.com
 */ 
     
-// include "../setDB.php";    
+ include "../setDB.php";   // Eric:  delete this line so that your bat file is not overridden !  
 
 
 $currentDB = mysqli_connect(getenv('DBHOST'),getenv('DBUSER'),getenv('DBPASS'),getenv('DBDATABASE'));
