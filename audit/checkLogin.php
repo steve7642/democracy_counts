@@ -1,7 +1,11 @@
 <?php session_start();
 error_reporting(E_ALL); 
+  $host = $_SERVER['HTTP_HOST'];
   
-  include "header.php"; 
+ if( $_SERVER['REMOTE_ADDR'] == '72.214.70.71') { //test server
+ 	   include "../setDB.php"; 
+ }  
+$currentDB = mysqli_connect(getenv('DBHOST'),getenv('DBUSER'),getenv('DBPASS'),getenv('DBDATABASE'));
 
 
 	if( isset( $_POST['password'] )   &&  isset($_POST['username'])    ){ 
@@ -12,15 +16,7 @@ error_reporting(E_ALL);
 				WHERE  username = '" . $username. "'
 				AND password = '" . $password. "'" ; 
 
-
-//echo '<br>check login='.$sql; 
-//06fd6bd91f252affc95263d70d4b5a52
-
-//SELECT * FROM mgt_users WHERE username = 'super' AND password = '21232f297a57a5a743894a0e4a801fc3'
-// SELECT * FROM mgt_users WHERE username = 'super' AND password = '21232f297a57a5a743894a0e4a801fc3'
-/*
-21232f297a57a5a743894a0e4a801fc3
-*/
+ 
 
 		$get = mysqli_query( $currentDB, $sql );
 		while ( $row = mysqli_fetch_array($get) ) { 

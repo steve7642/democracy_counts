@@ -1,4 +1,9 @@
-<?php // coa520.com/voter/tally.php   // remove comments on output for testing, on cheduled task
+<?php // coa520.com/voter/tally.php   
+/* 
+   this is the scheduled task. .. it creates and saves the HTML produced by the supervisor report program..
+   need include file.......................
+
+*/
 include "header.php"; 	
 ?> 
 
@@ -47,8 +52,12 @@ include "header.php";
 					$tab .= "<tr><td colspan=3>"   .$offices[ $id1] ;
 					
 					while( list($id2, $cnt) = each( $aa ) ){
-					   $tab .= "<tr><td> &nbsp; &nbsp; <td> ". $officer_names [$id1] [$id2] ."<td>". $cnt;
-					  
+								if( !is_numeric($id2)){
+									  $candidateName = $id2; 
+								}	else { 
+									  $candidateName = $officer_names [$id1] [$id2];
+								}
+							  $tab .= "<tr><td> &nbsp; &nbsp; <td> ".$candidateName  ."<td>". $cnt;
 					}  
 				}
 			}
@@ -57,12 +66,17 @@ include "header.php";
 			while( list($id1, $a) = each( $ptotal ) ){
 				$tab .= "<tr><td colspan=3>".$offices[ $id1];
 				while( list($id2, $cnt) = each( $a ) ){
-					$tab .= "<tr><td>  &nbsp; &nbsp; <td> "   .$officer_names [$id1] [$id2] ."<td>".$cnt;   
+								if( !is_numeric($id2)){
+									  $candidateName = $id2; 
+								}	else { 
+									  $candidateName = $officer_names [$id1] [$id2];
+								}
+							  $tab .= "<tr><td> &nbsp; &nbsp; <td> ".$candidateName  ."<td>". $cnt;
 				}
 			}
 			//echo $tab ."</table>"; 
 			
-			$sql = "insert into generic_list ( listType, area ) values ('tallyReport', '". $tab. "')"; 
+			$sql = "insert into generic_list ( listType, area ) values ('tallyReport', '". $tab. "</table>')"; 
 			mysqli_query( $currentDB, $sql );
 			
 			//writeFile($xfile, 'tally.csv', 'a');

@@ -68,7 +68,6 @@ echo '<br> insert sql='.$sql;
    		  
 	   		  
 						$precinct = $_POST['precinct'];
-						$domain    = $_POST['domain'];
 						$auditname = $_POST['auditname'];
 						//put updatable single record for machine id and precinct dode
 	
@@ -129,7 +128,7 @@ echo '<br> insert sql='.$sql;
 		               <tr><td>Precinct  Code:  <td><select  " .$dropStyle. "          
 		                     name=precinct id='precinct' > " .$optionP ."</select> 
 		               <tr><td>Auditor Name:    <td><input " .$inputStyle." name=auditname id=auditname> 
-		               <tr><td>Current Domain:   <td><select ".$inputStyle. " name=domain id=domain> " .$optionDomain ."</select>  ";
+		               <tr><td>Current Domain:   <td>" .$domain;
 		    
  
 		    // get center 
@@ -196,8 +195,6 @@ echo '<br> insert sql='.$sql;
 //alert( o.value ); 					            
 					            var o = document.getElementById('auditname');
 					            o.value ='" .$auditname."';
-					            var o = document.getElementById('domain');
-					            o.value ='" .$domain."';
 					            var o = document.getElementById('activerange');
 					            if(o){ o.value ='" .$activerange."'; }
 					         </script>"; 
@@ -214,7 +211,6 @@ echo '<br> insert sql='.$sql;
 	  	function xmit(){ 
 	  		if( document.ff.precinct.value == '' ) { alert( 'Enter precinct'); return; }
 	  		if( document.ff.auditname.value == '' ) { alert( 'Enter auditor name'); return; }
-	  		if( document.ff.domain.value == '' ) { alert( 'Enter domain name'); return; }
 	  		
 	  		document.ff.submit(); 
 	  	}

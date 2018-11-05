@@ -2,10 +2,6 @@
 
  /* used only by vote.php !! */   
 	 
-	function countKeys(obj) {
-	    return Object.keys(obj).length;
-	}	
-	  
 	
 	function done1(d){
 	 
@@ -22,19 +18,21 @@
 		} else if( d=='99') { //from Intake
 			
 	  	 		var o =document.getElementById('fullname'); if(o && o.value == ''){o.focus(); alert( 'Enter your Full Name'); return false;  }
-	  	 		var o =document.getElementById('Fulladdressname'); if(o && o.value == ''){o.focus(); alert( 'Enter your Full street address'); return false;  }
-	  	 		var o =document.getElementById('zip'); if(o && o.value == ''){o.focus(); alert( 'Enter your Zip code'); return false;  }
+	  	 		//var o =document.getElementById('Fulladdressname'); if(o && o.value == ''){o.focus(); alert( 'Enter your Full street address'); return false;  }
+	  	 		//var o =document.getElementById('zip'); if(o && o.value == ''){o.focus(); alert( 'Enter your Zip code'); return false;  }
 	  	 		var o =document.getElementById('email'); 
 						if(o && o.value == ''){
-							o.focus(); alert( 'Enter your Email address'); return false;  
+							o.focus(); 
+							alert( 'Enter your Email address'); 
+							return false;  
 						}
 						if(o &&  !o.value.match(/.+@.+\..+/)  ) {
 							alert(' Email format required');
 							o.focus(); 			return false; 
 						}
 	  	 		   
-	  	 		var o =document.getElementById('phone'); if(o && o.value == ''){o.focus(); alert( 'Enter your Phone number'); return false;  }
-	  	 		var o =document.getElementById('citystate'); if(o && o.value == ''){o.focus(); alert( 'Enter your City and State'); return false;  }
+	  	 		//var o =document.getElementById('phone'); if(o && o.value == ''){o.focus(); alert( 'Enter your Phone number'); return false;  }
+	  	 		//var o =document.getElementById('citystate'); if(o && o.value == ''){o.focus(); alert( 'Enter your City and State'); return false;  }
 	  	 		var o =document.getElementById('agreement'); if(o && o && o.value == ''){o.focus(); alert( 'Enter your name to agree'); return false;  }
 	 
 	  }  else if( d=='3' ){
@@ -64,33 +62,65 @@
 	  	   ////////  
 	  	   
 	  	      var inobj  = (document.getElementById('reasonContainer')).getElementsByTagName('input');  
-	  	      var cnt = new Object(); 
+	  	      var cntResponses = 0;  
 	  	      var xname = new Object();   
-   	      	 
+   	      	var nChoices =Object();  
+   	      	var writeInCheck = false; 
+   	      	
 	  	      for(var k=0; k<inobj.length; k++) {  
+	  	      		
 	  	      		var xn = inobj[k].name; 
+	  	      		var xtype = inobj[k].type; 
+	  	      		if( xtype=='radio'){ 
+	  	      			 nChoices[xn] = ''; // one for each office. 
+	  	      		}
 	  	      		xname[xn] = 1; 
-	  	      		nChoices += 1; 
+	  	      		var xv = inobj[k].value;
 	  	      		if ( inobj[k].checked ){
-	  	      				cnt[xn] = 1; 
+	  	      				cntResponses += 1; 
+	  	      		}
+	  	      		if( isNaN(xv) && xv != '') { 
+	  	      			//confirm no candidate for this office is checked 
+	  	      				var radName = 'v_' +  xn.substring(8);
+	  	      				for(var kk=0; kk<inobj.length; kk++) {  
+//alert ( 'radName='+radName + '* boxname=' + inobj[kk].name +'*'); 	  	      					
+	  	      					if (inobj[kk].name == radName ){
+//alert( 'isequal'); 
+						  	      		if ( inobj[kk].checked ){
+//alert ('checked'); 					
+                              writeInCheck = true; 	  	      			
+						  	      				inobj[kk].checked = false;  
+						  	      		}
+	  	      					}
+	  	      				}
+					
+	  	      			  cntResponses += 1;
+	  	      			  
 	  	      		}
 	  	      }
-	  	      var nChoices = countKeys(xname); 
-	  	      var found = 0; 
-	  	      for( var xn in xname ) { 
-							   //alert( xn+' ' + xname[xn] ); 
-							   if( cnt[xn]){
-							   	  found += 1;  
-							   }
-						}
-						if(nChoices > found) { 
-	  	      	 if ( confirm ('You have not completed the ballot !  Continue anyway? ')){
-	  	      	 	   
+	  	     
+//alert('nc='+countKeys(nChoices)); 
+	  	      nCandidates = countKeys(nChoices);
+
+  //alert( 'ncandidates='+nCandidates+' cntResponses=' + cntResponses);			
+			
+						if(nCandidates > cntResponses    ) { 
+							 if( cntResponses == 0 ) { 
+							 	  alert( 'Indicate who you voted for');
+							 	  return false; 
+							 }
+	  	      	 if ( confirm ('You have not completed the ballot !  This is how I actually voted, press OK to submit this ballot. ')){
+	  	      	 	   ///////////////
 	  	      	 } else {
 	  	      	 	  return false; 
 	  	      	 }
+						} else if ( writeInCheck ){
+							   alert( 'You have provided a write-in candidate and checked one as well, correct and continue')
+	  	      	 	  return false; 
+							
 						}
-	  	    
+//alert( ' this will continue'); 						
+//return false; 	  	    
 	  	
 	  } else {
 	  	

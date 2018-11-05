@@ -1,5 +1,5 @@
 <?php 
-	/// https://coa520.com/voter/index.php  or voterCheck.php 
+	/// https://coa520.com/voter/index.php   
 	include "header.php"; 	
 ?> 
 
@@ -27,7 +27,12 @@
 							while ( $row = mysqli_fetch_array($get) ) { 
 								     $cid = $row['f2']; 
 								     $p = $row['f3']; 
-								     $xn = $candidates[$cid]; 
+								     if ( !is_numeric($cid)){
+								     	   $xn = $cid ;
+								     } else { 
+								     	   $xn = $candidates[$cid]; 
+								     }
+								     
 								     $xnames .= "<br> &nbsp; &nbsp; ".$xn;
 							}
 							

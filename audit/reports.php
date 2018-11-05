@@ -76,26 +76,35 @@ include "header.php";
 									$xfile=""; 
 									
 									while( list($p, $a) = each( $rawCnt ) ){
-										$tab .= "<tr style='background-color:lightgrey;' ><td colspan=3>Precinct=" .$p; 
-										 
-										while( list($id1, $aa) = each( $a ) ){
+										  $tab .= "<tr style='background-color:lightgrey;' ><td colspan=3>Precinct=" .$p; 
+										  while( list($id1, $aa) = each( $a ) ){
 											$tab .= "<tr><td colspan=3>"   .$offices[ $id1] ;
-											
-											while( list($id2, $cnt) = each( $aa ) ){
-											   $tab .= "<tr><td> &nbsp; &nbsp; <td> ". $officer_names [$id1] [$id2] ."<td>". $cnt;
-											  
-											   $xfile .= '"' .$p. '","'. $offices[ $id1] .'","'. 
-											             $officer_names [$id1] [$id2] . '","'. $cnt. '"' ."\r\n"; 
+													while( list($id2, $cnt) = each( $aa ) ){
+														
+														if( !is_numeric($id2)){
+															  $candidateName = $id2; 
+														}	else { 
+															  $candidateName = $officer_names [$id1] [$id2];
+														}
+													  $tab .= "<tr><td> &nbsp; &nbsp; <td> ".$candidateName  ."<td>". $cnt;
+													  
+													  $xfile .= '"' .$p. '","'. $offices[ $id1] .'","'. 
+													             $candidateName . '","'. $cnt. '"' ."\r\n"; 
+													}
 											}  
-										}
 									}
-								
 									$tab .= "<tr><td colspan=3 style='background-color:lightgrey;' >All Precincts ";
 									while( list($id1, $a) = each( $ptotal ) ){
 										$tab .= "<tr><td colspan=3>".$offices[ $id1];
 										while( list($id2, $cnt) = each( $a ) ){
-											$tab .= "<tr><td>  &nbsp; &nbsp; <td> "   .$officer_names [$id1] [$id2] ."<td>".$cnt;   
-											   $xfile .= '"total","'. $offices[ $id1] .'","'. $officer_names [$id1] [$id2] . '","'. $cnt. '"' ."\r\n"; 
+														if( !is_numeric($id2)){
+															  $candidateName = $id2; 
+														}	else { 
+															  $candidateName = $officer_names [$id1] [$id2];
+														}
+												    $tab .= "<tr><td>  &nbsp; &nbsp; <td> "   .$candidateName ."<td>".$cnt; 
+												      
+												    $xfile .= '"total","'. $offices[ $id1] .'","'. $candidateName . '","'. $cnt. '"' ."\r\n"; 
 										}
 									}
 									echo $tab ."</table>"; 
@@ -104,8 +113,8 @@ include "header.php";
 						   	 	echo "<br><a target=_blank href='https://".$domain."/audit/out_csv/tally.csv' > Tally CSV </a><br><br>"; 
 								
 							} else if( $rtype=='nonvoter'){  /////////////////nonVoter Analytics //////////////////////////
-								  
-								  $hdr = '"Precinct","Age","Gender","Race","';
+//,"Citizen"Lines too long","ID not righ								  
+								  $hdr = '"Precinct","Age","Gender","Race","Education","Marital Status","Income","Citizen","'; 
 								  
 								  reset($nameList); //continue header for why not vote page . 
 									while( list($k, $v) = each( $hdrA ) ){
@@ -121,7 +130,7 @@ include "header.php";
 								  $hdr .=  "\r\n";   
 //echo $hdr;								  
 								  
-								  writeFile($hdr, 'nonVoterAnalytics.csv', 'w');
+								  writeFile($hdr, 'nonVoterAnalytics.csv', 'w');  // header line.............
 								  $sql = "select * from generic_list where listType='nonvoter' order by id desc ";
 									$get = mysqli_query( $currentDB, $sql );
 									while ( $row = mysqli_fetch_array($get) ) { 
@@ -130,31 +139,35 @@ include "header.php";
 											$age = $row['f21']; 
 											$gender = $row['f22']; 
 											$race = $row['f23']; 
-											$xrow .= $precinct. '","' .$age. '","'. $gender. '","'. $race. '","';  
+											$education = $row['f24']; 
+											$marital = $row['f25']; 
+											$income = $row['f26']; 
+											$citizen = $row['f27']; 
+//echo '<br>precinct='.$precinct.' educ='.$education.' gender='.$gender. ' income='.$income.' citizen='.$citizen; 											
 											
-											reset($nameList); 
+											$xrow .= $precinct. '","' .$age. '","'. $gender. '","'. $race. '","'. $education. '","'. 
+											   $marital. '","' . $income. '","'. $citizen. '","'   ;  
+											
+											reset($nameList); // the extended reasons for not voting.   
 											while( list($k, $v) = each( $nameList ) ){
 												if( $k > 0 ){
 													 $xrow .=  $row[$v] . '","'; 
 												}
 											}
-/*
-while( list($k, $v) = each( $officer_names ) ){
-	echo '<br>officer_names k='.$k.' v='.$v; 
-}
-while( list($k, $v) = each( $candidates ) ){
-	echo '<br>candidates k='.$k.' v='.$v; 
-}
-*/ 
 											
 											$nonvoteId_f3 = $row['id'];  
 											//get the vote cast .....$officer_names[$row2['f2']]
 											$sql = "select f1, f2 from generic_list where listType='nonvotes' and f3='" .$nonvoteId_f3. "'";  
 									    $get2 = mysqli_query( $currentDB, $sql );
 											while ( $row2 = mysqli_fetch_array($get2) ) {
-//echo '<br>  f2='. $row2['f2']; 
 												
-														$xrow .= $candidates [$row2['f2']] .'","'; 
+//echo '<br>non voter ballot report f1='.$row2['f1'].' f2='.$row2['f2']; 
+												
+													if( !is_numeric($row2['f2'])){
+														  $xrow .= $row2['f2'] .'","'; 
+													}	else { 
+														  $xrow .= $candidates [$row2['f2']] .'","'; 
+													}
 											}
 											$xrow = substr( $xrow,0, strlen($xrow)-2 ); 
 										  $xrow .=  "\r\n";   
@@ -196,7 +209,7 @@ while( list($k, $v) = each( $candidates ) ){
 								  // echo "<br> This report needs program data, ie questionnaire, to be completed ";
 	
 								
-							    $analyticsOut ='"Precinct","BallotType","Reason for Provisional ballot","Age","Gender","Race';
+							    $analyticsOut ='"Precinct","BallotType","Reason for Provisional ballot","Age","Gender","Race","Education",Marital Status","Income","Citizen"';
 							    // "'.  "\r\n"; 
 							    $vsectionA = array(); 
 									while( list($officeId, $office_name) = each( $offices ) ){
@@ -226,8 +239,13 @@ while( list($k, $v) = each( $candidates ) ){
 										  
 											while ( $row2 = mysqli_fetch_array($get2) ) { 
 														 $officeId = $row2['f1'];
-														 $cid = $row2['f2'];  // candidate id    
-														 $vsectionA[$officeId]  =  $officer_names[ $officeId ] [ $cid ] ;  //candidate name. 
+														 $cid = $row2['f2'];  // candidate id 
+														 if ( !is_numeric($cid)){
+														 	    $xname = $cid; 
+														 } else {
+														 	    $xname =  $officer_names[ $officeId ] [ $cid ] ;  
+														 }  
+														 $vsectionA[$officeId]  =  $xname ;  //candidate name. 
 //echo '<br>track='.$trackId.' vsection id='.$officeId.' cid='.$cid.' name='. 	 $officer_names[ $officeId ] [ $cid ] ;													 
 //	SELECT * from generic_list2 where listType='votes' and f4='22686'													 
 											}
@@ -252,6 +270,11 @@ while( list($k, $v) = each( $candidates ) ){
 									    $gender = $row['f12'];
 									    $race = $row['f13']; 
 									    
+									    $education = $row['f14']; 
+									    $marital = $row['f15']; 
+									    $income = $row['f16']; 
+									    $citizen = $row['f17']; 
+									    
 									    //line by line write
 									    $analytics = '"'. $p .
 									                 '","'. $ballotType. 
@@ -259,6 +282,10 @@ while( list($k, $v) = each( $candidates ) ){
 									                 '","'. $age .  
 									                 '","'. $gender .  
 									                 '","'. $race . 
+									                 '","'. $education . 
+									                 '","'. $marital . 
+									                 '","'. $income . 
+									                 '","'. $citizen . 
 									                 '",'. $vsection.  "\r\n"; 
 									                 
 									                 

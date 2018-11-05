@@ -24,12 +24,23 @@ include "header.php"; 	//=> $xmachine
 	 					$age = $_POST['age'];
 	 					$race = $_POST['race'];
 	 					$gender = $_POST['gender'];
+	 					$education = $_POST['education'];
+	 					$marital = $_POST['marital'];
+	 					$income = $_POST['income'];
+	 					$citizen = $_POST['citizen'];
+	 					
+	 					
 		 				$nonvoterId = $_POST['nonvoterId'];
 		 				$sql = " update generic_list 
-		 				          set f21='".$age."', f22='".$race."', f23='".$gender."' 
+		 				          set f21='".$age."', f22='".$race."', f23='".$gender."', f24='".$education.
+		 				          "', f25='". $marital. "', f26='".$income."', f27='". $citizen. "'
+		 				           
 		 				            where id = ".$nonvoterId ;
-//echo '<br>questionnaire sql='.$sql; 
-		 				         
+//echo '<br>non voter questionnaire sql='.$sql; 
+
+//update generic_list set f21='18-20', f22='white', f23='male', f24='Less the HS, f25='Married-Committed' where id = 25163
+//update generic_list set f21='18-20', f22='white', f23='male', f24='Less the HS',
+//        f25='Single', f26='100,000 to 149,999', f27='naturalized' where id = 25182		 				         
 		 				mysqli_query( $currentDB, $sql );          
  				
  			}
@@ -308,35 +319,73 @@ include "header.php"; 	//=> $xmachine
 	  	      	 return false; 
 						}
 	  	 	
-	  	 	} else if (d=='4')  { //ballot nonVoter 
+	  }  else if( d=='4' ){  //this section is exact copy from done1.js
+	  	 // alert( 'check ballot');  
+	  	   ///////////alert on ballot
+	  	   // <input type=radio 
+	  	   ////////  
+	  	   
 	  	      var inobj  = (document.getElementById('reasonContainer')).getElementsByTagName('input');  
-	  	      var cnt = new Object(); 
+	  	      var cntResponses = 0;  
 	  	      var xname = new Object();   
-   	      	 
+   	      	var nChoices =Object();  
+   	      	var writeInCheck = false; 
+   	      	
 	  	      for(var k=0; k<inobj.length; k++) {  
+	  	      		
 	  	      		var xn = inobj[k].name; 
+	  	      		var xtype = inobj[k].type; 
+	  	      		if( xtype=='radio'){ 
+	  	      			 nChoices[xn] = ''; // one for each office. 
+	  	      		}
 	  	      		xname[xn] = 1; 
-	  	      		nChoices += 1; 
+	  	      		var xv = inobj[k].value;
 	  	      		if ( inobj[k].checked ){
-	  	      				cnt[xn] = 1; 
+	  	      				cntResponses += 1; 
+	  	      		}
+	  	      		if( isNaN(xv) && xv != '') { 
+	  	      			//confirm no candidate for this office is checked 
+	  	      				var radName = 'v_' +  xn.substring(8);
+	  	      				for(var kk=0; kk<inobj.length; kk++) {  
+//alert ( 'radName='+radName + '* boxname=' + inobj[kk].name +'*'); 	  	      					
+	  	      					if (inobj[kk].name == radName ){
+//alert( 'isequal'); 
+						  	      		if ( inobj[kk].checked ){
+//alert ('checked'); 					
+                              writeInCheck = true; 	  	      			
+						  	      				inobj[kk].checked = false;  
+						  	      		}
+	  	      					}
+	  	      				}
+					
+	  	      			  cntResponses += 1;
+	  	      			  
 	  	      		}
 	  	      }
-	  	      var nChoices = countKeys(xname); 
-	  	      var found = 0; 
-	  	      for( var xn in xname ) { 
-							   //alert( xn+' ' + xname[xn] ); 
-							   if( cnt[xn]){
-							   	  found += 1;  
-							   }
-						}
-						if(nChoices > found) { 
-	  	      	 if ( confirm ('You have not completed the ballot !  Continue anyway? ')){
-	  	      	 	   
+	  	     
+//alert('nc='+countKeys(nChoices)); 
+	  	      nCandidates = countKeys(nChoices);
+
+  //alert( 'ncandidates='+nCandidates+' cntResponses=' + cntResponses);			
+			
+						if(nCandidates > cntResponses    ) { 
+							 if( cntResponses == 0 ) { 
+							 	  alert( 'Indicate who you voted for');
+							 	  return false; 
+							 }
+	  	      	 if ( confirm ('You have not completed the ballot !  This is how I actually voted, press OK to submit this ballot. ')){
+	  	      	 	   ///////////////
 	  	      	 } else {
 	  	      	 	  return false; 
 	  	      	 }
+						} else if ( writeInCheck ){
+							   alert( 'You have provided a write-in candidate and checked one as well, correct and continue')
+	  	      	 	  return false; 
+							
 						}
-	  	 		   
+//alert( ' this will continue'); 						
+//return false; 	  	    
+	  	
 	  	 	} else if (d=='99')  { //confirm questionnaire, another script for voter
               //var o = document.getElementById('age'); 
               //if( o && ( isNaN(o.value) || o.value=='' ) ) { alert('Age must be a number'); o.focus(); return false; }

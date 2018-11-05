@@ -1,13 +1,24 @@
 <?php 	
 /* ABOVE THE BODY TAG */ 
 //error_reporting(0);
+ if( $_SERVER['REMOTE_ADDR'] == '72.214.70.71') { //test server
+ 	   include "../setDB.php"; 
+ }  
+ 
+ //https://dcaudit.herokuapp.com/audit/
+ //https://www.democracycounts.net/audit/
+ //https://coa520.com/audit/
+ 
+$currentDB = mysqli_connect(getenv('DBHOST'),getenv('DBUSER'),getenv('DBPASS'),getenv('DBDATABASE'));
+
+
 
     $realRootPathExt = 'audit'; 
     $httpPrefix="https://"; 
   	$realRoot = realpath(""); //no trailing slash, 
  	  $realRootPath = $realRoot."\\"; 
 		$host = $_SERVER['HTTP_HOST'];
-		$domain = $host; ////////////////////////////////////////
+		$domain = $host; 
 
 		$uriPrefix =   $_SERVER['REQUEST_URI']; 
 		$uriRedirect = $httpPrefix. $host . $uriPrefix;
@@ -37,13 +48,6 @@ coa520.com/audit
 https://coa520.com
 coa520.com
 */ 
-    
-// include "../setDB.php";    
-
-
-$currentDB = mysqli_connect(getenv('DBHOST'),getenv('DBUSER'),getenv('DBPASS'),getenv('DBDATABASE'));
-
-
    
          //////////////////////////////////////////////// machine and userid
 		 		      $machine = $_SERVER['HTTP_COOKIE']  ;
@@ -207,18 +211,66 @@ $zmsg = '<br>lastpdate='.$dt.' hourago='.$onehourago;
 		//Age options
 		$ageA = array(); 
 		$ageA['18-20']	= '18-20'; 
-		$ageA['21-25']	= '21-25'; 
-		$ageA['26-30']	= '26-30'; 
+		$ageA['21-30']	= '21-30'; 
 		$ageA['31-40']	= '31-40'; 
-		$ageA['40 plus']	= '40 plus'; 
+		$ageA['41-50']	= '41-50'; 
+		$ageA['51-60']	= '51-60'; 
+		$ageA['60 plus']	= '60 plus'; 
 		
 		$ageOpts = "<option value=''>Your Age?";   
+		
 		while( list($k, $v) = each( $ageA ) ){
 			 $ageOpts .= "<option value='" .$v. "'>" .$v; 
 		}
+		
+		//Education 
+		$educA = array(); 
+		$educA['Less the HS']	= "Less than high school degree                "; 
+		$educA['HS or equiv']	= "High school degree or equivalent (e.g., GED)"; 
+		$educA['Some college']	= "Some college but no degree                  "; 
+		$educA['Associate']	= "Associate degree                            "; 
+		$educA['Bachelor']	= "Bachelor degree                             "; 
+		$educA['Graduate']	= "Graduate or professional degree             "; 
+		
+		$educOpts = "<option value=''>Your Education?";   
+		while( list($k, $v) = each( $educA ) ){
+			 $educOpts .= "<option value='" .$k. "'>" .$v; 
+		}
 
+		//Marital status
+		$maritalA = array(); 
+		$maritalA['Married-Committed']	= "Married or Committed"; 
+		$maritalA['Widowed']	= "Widowed"; 
+		$maritalA['Divorced']	= "Divorced"; 
+		$maritalA['Separated']	= "Separated"; 
+		$maritalA['Single']	= "Single"; 
 		
+		$maritOpts = "<option value=''>Marital Status?";   
+		while( list($k, $v) = each( $maritalA ) ){
+			 $maritOpts .= "<option value='" .$k. "'>" .$v; 
+		}
+		//Income
+		$incomeA = array(); 
+		$incomeA['0 to 24,999       ']	= "0 to 24,999       "; 
+		$incomeA['25,000 to 49,999  ']	= "25,000 to 49,999  "; 
+		$incomeA['50,000 to 74,999  ']	= "50,000 to 74,999  "; 
+		$incomeA['75,000 to 99,999  ']	= "75,000 to 99,999  "; 
+		$incomeA['100,000 to 149,999']	= "100,000 to 149,999"; 
+		$incomeA['150,000 to 199,999']	= "150,000 to 199,999"; 
+		$incomeA['200,000+          ']	= "200,000+          "; 
+		$incomeOpts = "<option value=''>Dollar Income Last Year?";   
+		while( list($k, $v) = each( $incomeA ) ){
+			 $incomeOpts .= "<option value='" .$k. "'>" .$v; 
+		}
 		
+		//Citizenship 
+		$citizenA = array(); 
+    $citizenA['birth']	= "Citizen by birth"; 
+    $citizenA['naturalized']	= "Naturalized citizen"; 
+		$citizenOpts = "<option value=''>Type of Citizen?";   
+		while( list($k, $v) = each( $citizenA ) ){
+			 $citizenOpts .= "<option value='" .$k. "'>" .$v; 
+		}
 						
     function writeFile($data, $fname, $mode){
     	

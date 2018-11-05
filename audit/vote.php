@@ -104,6 +104,30 @@
 		 				mysqli_query( $currentDB, $sql );          
 		 	}
 		
+		  if (!empty( $_POST['education'] )) { 
+		 				$sql = "update generic_list set f14='".$_POST['education']."' where 
+		 				         id=" .$trackId; 
+		 				mysqli_query( $currentDB, $sql );          
+		 	}
+		
+		  if (!empty( $_POST['marital'] )) {
+		 				$sql = "update generic_list set f15='".$_POST['marital']."' where 
+		 				         id=" .$trackId; 
+		 				mysqli_query( $currentDB, $sql );          
+		 	}
+		
+		  if (!empty( $_POST['income'] )) {
+		 				$sql = "update generic_list set f16='".$_POST['income']."' where 
+		 				         id=" .$trackId; 
+		 				mysqli_query( $currentDB, $sql );          
+		 	}
+		
+		  if (!empty( $_POST['citizen'] )) {
+		 				$sql = "update generic_list set f17='".$_POST['citizen']."' where 
+		 				         id=" .$trackId; 
+		 				mysqli_query( $currentDB, $sql );          
+		 	}
+		
 		
 		
 		if( !empty( $_POST['hvote'] )){    //insert votes and set f10='close' where id=trackid coming in .     
@@ -128,21 +152,31 @@
 						while( list($xname, $cid) = each( $post ) ){
 							$pos = strpos($xname,'v_');
 							if( is_numeric($pos)  && !empty($cid)  ){ 
-										
 									  $xid = substr($xname,2);  
 		                $sql = "insert into generic_list2( listtype, f1,f2,f3,f4 ) 
 		                         values ( 'votes','" .$xid. 
 		                           "','".$cid."','". $precinct. "','". $trackId. "')";            
-	//echo '<br>ins vote='.$sql; 
 		                mysqli_query( $currentDB, $sql );
-		                
 		                // get id for the vote and associate to random number.
 		                $xvoteId = getNewId2 ($currentDB,   $listType='votes' );
-		                
-										
 										$sql = "update generic_list set f10='close' where id = " .$trackId;
 										mysqli_query( $currentDB, $sql ); 
-							}
+							} 
+							
+							$pos = strpos($xname,'writein_');
+							if( is_numeric($pos)  && !empty($cid)  ){ 
+									  $xid = substr($xname,8);  
+		                $sql = "insert into generic_list2( listtype, f1,f2,f3,f4 ) 
+		                         values ( 'votes','" .$xid. 
+		                           "','".$cid."','". $precinct. "','". $trackId. "')";            
+		                mysqli_query( $currentDB, $sql );
+		                // get id for the vote and associate to random number.
+		                $xvoteId = getNewId2 ($currentDB,   $listType='votes' );
+										$sql = "update generic_list set f10='close' where id = " .$trackId;
+										mysqli_query( $currentDB, $sql ); 
+							} 
+							
+							
 						}
 					}
 				}    
