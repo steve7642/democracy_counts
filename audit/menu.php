@@ -56,6 +56,7 @@
 					   		    <div style='  padding-top:18px; '>  <a href='/audit/addDomain.php'> Add Domain </a></div> 
 					   		    <div style='  padding-top:8px; '>  <a href='/audit/listDomains.php'> List Domains </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='/audit/candidates.php'> Candidates </a></div> 
+					   		    <div style='  padding-top:18px; '>  <a href='/audit/clearAudit.php'> Clear Audit </a></div> 
 					   		    <div style='  padding-top:18px; '>  <a href='/audit/scheduled.php'> Scheduled Task on-off </a></div> 
 					   		    <div style='  padding-top:18px; '> <a href='/audit/logout-page.php'> Logout </a> </div> 
 		   		        </div> 

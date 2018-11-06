@@ -367,6 +367,8 @@ $qn
 		                <tr><td colspan=2> <select ".$dropStyleWide." name=race id=race > 
 		                          <option value=''>What is your race? 
 		                          <option value=white>White
+		                          <option value=cuban>Cuban
+		                          <option value=hispanic>Hispanic
 		                          <option value=black>Black or African American
 		                          <option value=asian>Asian
 		                          <option value='native american'>American Indian and Alaska Native
@@ -438,12 +440,12 @@ $qn
 //echo '<br>uriRedirect'	. $uriRedirect; 	strpos( $uriRedirect, 'nonVoter' );
         if ( is_numeric(strpos( $uriRedirect, 'nonVoter' )))	{
         	
- 						$ballot .= $tab. "</table><br> <input " .$submitStyle." type=button value='Preferred Vote' onclick='done1(4); '> <br><br>"; 
+ 						$ballot .= $tab. "</table><br> <input " .$submitStyle." type=button value='Submit' onclick='done1(4); '> <br><br>"; 
        	  
         }	 else {
         	
-						$ballot .= $tab. "</table><br> <input " .$submitStyle." type=button value='Parallel Vote' onclick='done1(4); '> <br><br>"; 
-        	   ; 
+						$ballot .= $tab. "</table><br> <input " .$submitStyle." type=button value='Submit' onclick='done1(4); '> <br><br>"; 
+        	   
         }
 				
 				
